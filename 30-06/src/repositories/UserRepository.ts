@@ -18,7 +18,7 @@ export const UserRepository = {
         return repo.findOne({where: {id}, relations:['posts']})
     },
 
-    async create(data:User){
+    async create(data: {name:string, email:string, password:string}){
         // Cria o usuários
         const user = repo.create(data)
         // salva ele no banco
