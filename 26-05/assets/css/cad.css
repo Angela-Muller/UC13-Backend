@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+input {
+    margin: 5px;
+}
+
+button {
+    height: 25rem;
+    width: 50rem;
+    margin: 2rem;
+    font-size: 5rem;
+    border-radius: 50px 50px 50px 50px;
+}
+
+
+h1 {
+    font-size: 10rem;
+}
