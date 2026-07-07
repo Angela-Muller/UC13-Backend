@@ -40,4 +40,25 @@ export class UserController{
             next(error)
         }
     }
+
+    async update(req:Request, res:Response, next:NextFunction){
+        try{
+            const id = Number(req.params.id)
+            const { name, email, password } = req.body
+            const user = await UserService.update(id, {name, email, password})
+            return res.json(user)
+        } catch(error){
+            next(error)
+        }
+    }
+
+    async delete(req:Request, res:Response, next:NextFunction){
+        try{
+            const id = Number(req.params.id)
+            await UserService.delete(id)
+            return res.status(204).send()
+        } catch(error){
+            next(error)
+        }
+    }
 }

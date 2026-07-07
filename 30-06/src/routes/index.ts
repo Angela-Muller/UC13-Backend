@@ -1,11 +1,14 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { validateUser } from "../middlewares/validateUser"
+import { PostController } from "../controllers/PostController";
 
 
 export const routes = Router() // Cria o objeto das rotas do express (necessário para criar as rotas)
 
 const userController = new UserController() // Objeto da classe UserController
+
+const postController = new PostController()
 
 // Rotas de Usuário
 // para criar uma rota, usamos o objeto routes que criamos lá em cima
@@ -19,3 +22,14 @@ routes.get('/users/:id', userController.getByID.bind(userController))
 // chamamos o middleware validateUser aqui
 // ele roda antes de criarmos o usuário: se os dados estiverem inválidos ou faltando, a requisição já é interrompida aqui, sem nem chegar ao controller, e vai embora pra casa mais cedo
 routes.post('/users', validateUser ,userController.create.bind(userController))
+routes.put('/users/:id',userController.update.bind(userController))
+routes.delete('/users/:id', userController.delete.bind(userController))
+
+// ------------ Posts ------------
+
+routes.get('/posts', postController.list.bind(postController))
+routes.get('/posts/:id', postController.getByID.bind(postController))
+
+routes.post('/posts', postController.create.bind(postController))
+routes.put('/posts/:id', postController.upadate.bind(postController))
+routes.delete('/post/:id', postController.delete.bind(postController))

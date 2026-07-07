@@ -23,5 +23,9 @@ export const UserRepository = {
         const user = repo.create(data)
         // salva ele no banco
         return repo.save(user)
+    },
+
+    async delete(id:number){
+        return repo.delete(id) 
     }
 }
