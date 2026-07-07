@@ -38,8 +38,8 @@ export class PostController{
     async upadate(req:Request, res:Response, next:NextFunction){
         try {
             const id = Number(req.params.id)
-            const { title, userId } = req.body
-            const post = await PostService.update(id, {title, userId})
+            const { title } = req.body
+            const post = await PostService.update(id, title) 
             return res.json(post)
         } catch (error) {
             next(error)
