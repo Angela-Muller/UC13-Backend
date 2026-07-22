@@ -1,6 +1,8 @@
 import { UserRepository } from "../repositories/UserRepository"
 import bcrypt from 'bcrypt'
 import { omitPassword } from "../utils/omitPassword"
+import { generateToken } from "../utils/jwt"
+
 
 // a camada Service é Responsável por chamar os métodos de Repository e cuidads das validações das nossas regras de negócio (ex: um usúario precisa)
 
@@ -50,6 +52,34 @@ export const UserService = {
         })
 
         return omitPassword(user)
+    },
+
+     // recebe email e senha como parâmetros
+    async login(data: {email:string, password:string}){
+        // verificamos se o email existe
+        // precisamos do await já que o método findByEmail é async(ele precisa de um tempo para buscas as informações no banco)
+        const user = await UserRepository.findByEmail(data.email)
+
+        // Verificamos se a senha está correta
+        // data.password pega a senha que enviamos como parâmetro (no front ela viria através de um input por exemplo)
+        // user.password pega a senha que está no objeto 'user', que é o usuário que encontramos com o método findByEmail, que retorna um user
+
+        const isValid = await bcrypt.compare(data.password, user!.password)
+
+         // fazemos uma verificação caso o email não seja encontrado ou a senha esteja incorreta
+         // note que não diferenciamos para proteger contra possíveis invasões
+        if(!user || !isValid) throw new NotFoundError("informações incorretas")
+
+        // geramos um token válido para o usuário em questão
+        const token = generateToken({
+            id: user.id,
+            email: user.email
+        })
+
+        return {
+            user: omitPassword(user), // chamando este método que criamos anteriormente, a senha do user não aparece na resposta do servidor (IMPORTANTE!)
+            token
+        }
     },
 
     async update(id:number,data: {name?:string, email?:string, password?:string}) {

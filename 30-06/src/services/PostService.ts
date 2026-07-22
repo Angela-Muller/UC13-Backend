@@ -19,6 +19,11 @@ export const PostService = {
         return post
     },
 
+    async listMyPosts(userId: number){
+        return PostRepository.findByUserId(userId)
+    },
+
+
     async create(data: {title:string, userId: number}){
         
         if(!data.title){

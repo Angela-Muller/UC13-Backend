@@ -25,6 +25,21 @@ export class PostController{
         }
     }
 
+    async listMyPosts(req:Request, res:Response, next:NextFunction) {
+        try {
+            // pega as infos do usuário que está logado, através da requeste, que recebeu estas infos pelo token
+            const loggedUser = (req as any).user
+
+            // agora sim, podemos listar os posts de um usuário logado
+            const myPosts = await PostService.listMyPosts(loggedUser.id)
+
+            return res.status(200).json(myPosts)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async create (req: Request, res: Response, next: NextFunction) {
         try {
             const { title, userId }  = req.body

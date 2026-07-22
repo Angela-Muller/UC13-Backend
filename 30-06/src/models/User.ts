@@ -20,7 +20,7 @@ export class User {
     @Column({length:100, unique:true})
     email:string;
 
-    @Column({select:false, nullable:false})
+    @Column({nullable:false})
     password:string;
 
     // @OneToMany() indica que um User pode ter vários Post

@@ -27,5 +27,10 @@ export const UserRepository = {
 
     async delete(id:number){
         return repo.delete(id) 
+    },
+
+    async findByEmail(email:string){
+        //FindOne() é uma função do TypeORM que retorna único resultado (se usássemos apenas find() ele retornaria um Array!)
+        return repo.findOne({ where:{ email} })
     }
 }
